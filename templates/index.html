@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Blog de Negócios{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-lg-8">
+            <h1 class="mb-3">Bem-vindo ao Blog de Negócios</h1>
+            <p class="lead text-muted">Artigos e insights sobre negócios, empreendedorismo e inovação</p>
+        </div>
+    </div>
+
+    {% if posts %}
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            {% if post.Categoria %}
+                                <span class="badge bg-primary mb-2">{{ post.Categoria }}</span>
+                            {% endif %}
+                            <h5 class="card-title">{{ post.Titulo }}</h5>
+                            <p class="card-text text-muted">{{ post.Conteudo[:100] }}...</p>
+                            <small class="text-muted">
+                                Por: <strong>{{ post.Autor or 'Anônimo' }}</strong><br>
+                                {{ post.Data_Publicacao.strftime('%d/%m/%Y') if post.Data_Publicacao else 'Data não informada' }}
+                            </small>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <a href="/post/{{ post.Slug }}" class="btn btn-sm btn-primary">Ler Mais</a>
+                            <small class="text-muted">👁️ {{ post.Visualizacoes }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <p>Nenhum post publicado ainda.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
